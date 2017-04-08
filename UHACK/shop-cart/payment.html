@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<script src="https://cdn.netpie.io/microgear.js"></script>
+	<script>
+		const APPID  = "UHACK";
+		const KEY    = "KIGJDCbLa46B6tP";
+		const SECRET = "BODTyyclr3qIgeuEDpB0Hxx1h";
+
+		var microgear = Microgear.create({
+			key: KEY,
+			secret: SECRET,
+			alias : "index"         /*  optional  */
+		});
+
+		microgear.on('message',function(topic,msg) {
+			var response = document.getElementById("response");
+			if (topic == "/UHACK/accept/keys") {
+				if (msg.split(",")[0] == "true") {
+					console.log(msg.split(",")[0]);
+					if (msg.split(",")[1] == "id00000001") {
+						console.log(msg.split(",")[1]);
+						response.innerHTML = "<a href=confirm>Success...</a>";
+					} else if (msg.split(",")[1] == "id00000002") {
+						response.innerHTML = "<a href=confirm>Success...</a>";
+					} else if (msg.split(",")[1] == "id00000003") {
+						response.innerHTML = "<a href=confirm>Success...</a>";
+					}
+				} else {
+					response.innerHTML = "Error... Please Scan your Card again";
+				}
+			}
+		});
+
+		microgear.on('connected', function() {
+			microgear.subscribe("/accept/keys");
+		});
+
+		microgear.connect(APPID);
+	</script>
+	<body>
+		<center>
+			<div>
+				<img src="assets/img/kbank.png" width="850" height="620"/>
+			</div>
+			<a href="http://localhost:9090">Payment</a>
+			<div>
+				<img src="assets/img/spon.png" width="850" height="170"/>
+			</div>
+		</center>
+	</body>
+</html>
